@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h1>My Journal</h1>
+<form method="POST">
+    <input type="text" name="title" placeholder="Entry title" required>
+    <textarea name="content" placeholder="Write your thoughts..." required></textarea>
+    <select name="mood">
+        <option value="">Select your mood (optional)</option>
+        <option value="Happy">😊 Happy</option>
+        <option value="Sad">😢 Sad</option>
+        <option value="Angry">😠 Angry</option>
+        <option value="Excited">😄 Excited</option>
+        <option value="Calm">😌 Calm</option>
+    </select>
+    <button type="submit">Save</button>
+</form>
+
+<hr>
+
+{% for entry in entries %}
+    <div class="journal-entry">
+        <p><strong>Date:</strong> {{ entry.date_created.strftime('%Y-%m-%d') }}</p>
+        <p><strong>Mood:</strong> {{ entry.mood or "Not specified" }}</p>
+        <p>{{ entry.content }}</p>
+    </div>
+{% endfor %}
+{% endblock %}
