@@ -20,9 +20,12 @@
 
 {% for entry in entries %}
     <div class="journal-entry">
-        <p><strong>Date:</strong> {{ entry.date_created.strftime('%Y-%m-%d') }}</p>
-        <p><strong>Mood:</strong> {{ entry.mood or "Not specified" }}</p>
+
+        <p><strong>Mood:</strong> <p>{{ mood_icons.get(entry.mood, "No mood") }}</p></p>
         <p>{{ entry.content }}</p>
+        <a href="/delete/{{ entry.id }}">Delete</a>
+        <a href="/edit/{{ entry.id }}">Edit</a>
+        <p><strong>Date:</strong> {{ entry.date_created.strftime('%Y-%m-%d') }}</p>
     </div>
 {% endfor %}
 {% endblock %}
