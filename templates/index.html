@@ -5,24 +5,32 @@
 <form method="POST">
     <input type="text" name="title" placeholder="Entry title" required>
     <textarea name="content" placeholder="Write your thoughts..." required></textarea>
-    <select name="mood">
-        <option value="">Select your mood (optional)</option>
-        <option value="Happy">😊 Happy</option>
-        <option value="Sad">😢 Sad</option>
-        <option value="Angry">😠 Angry</option>
-        <option value="Excited">😄 Excited</option>
-        <option value="Calm">😌 Calm</option>
-    </select>
+        <select name="mood">
+            {% for mood_key, mood_value in mood_icons.items() %}
+                <option value="{{ mood_key }}" {% if  "" == mood_key %} selected {% endif %}> 
+                {{ mood_value}}
+                </option>
+            {% endfor %}
+        </select>
     <button type="submit">Save</button>
+</form>
+
+<hr>
+<form method="GET" action="/">
+    <input type="text" name="q" placeholder="Search entries..." value="{{ request.args.get('q', '') }}">
+    <button type="submit">Search</button>
+    {% if request.args.get('q') %}
+        <a href="/">Clear</a>
+    {% endif %}
 </form>
 
 <hr>
 
 {% for entry in entries %}
     <div class="journal-entry">
-
         <p><strong>Mood:</strong> <p>{{ mood_icons.get(entry.mood, "No mood") }}</p></p>
-        <p>{{ entry.content }}</p>
+        <p>Title:{{entry.title}}</p>
+        <p>content:{{ entry.content }}</p>
         <a href="/delete/{{ entry.id }}">Delete</a>
         <a href="/edit/{{ entry.id }}">Edit</a>
         <p><strong>Date:</strong> {{ entry.date_created.strftime('%Y-%m-%d') }}</p>

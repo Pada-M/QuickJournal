@@ -8,15 +8,11 @@
     <form method="POST">
         <input type="text" name="title" value="{{ entry.title }}" required>
         <textarea name="content" required>{{ entry.content }}</textarea>
-        <select name="mood">
-            <option value="" {% if entry.mood == "" %}selected{% endif %}>Select your mood (optional)</option>
-            <option value="Happy" {% if entry.mood == "Happy" %}selected{% endif %}>😊 Happy</option>
-            <option value="Sad" {% if entry.mood == "Sad" %}selected{% endif %}>😢 Sad</option>
-            <option value="Angry" {% if entry.mood == "Angry" %}selected{% endif %}>😠 Angry</option>
-            <option value="Excited" {% if entry.mood == "Excited" %}selected{% endif %}>😄 Excited</option>
-            <option value="Calm" {% if entry.mood == "Calm" %}selected{% endif %}>😌 Calm</option>
-        </select>
-        
+    <select name="mood">
+        {% for mood_key, mood_value in mood_icons.items() %}
+            <option value="{{ mood_key }}" {% if entry.mood == mood_key %}selected{% endif %}>{{ mood_value }}</option>
+        {% endfor %}
+    </select>
         <button type="submit">Update</button>
     </form>
     <a href="/">Back to journal</a>

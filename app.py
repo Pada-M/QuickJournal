@@ -7,18 +7,19 @@ app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///journal.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db.init_app(app)
+mood_icons = {
+    "Happy": "😊 Happy",
+    "Sad": "😢 Sad",
+    "Angry": "😠 Angry",
+    "Excited": "😄 Excited",
+    "Calm": "😌 Calm",
+    "": "No mood",
+}
 
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-    mood_icons = {
-        "Happy": "😊 Happy",
-        "Sad": "😢 Sad",
-        "Angry": "😠 Angry",
-        "Excited": "😄 Excited",
-        "Calm": "😌 Calm",
-        "": "No mood",
-    }
+
     if request.method == "POST":
         title = request.form["title"]
         content = request.form["content"]
@@ -32,7 +33,20 @@ def index():
             print(f"Error: {e}")  # Print the actual error!
             return "Error saving journal entry."
     else:
-        entries = JournalEntry.query.order_by(JournalEntry.date_created.desc()).all()
+        query = request.args.get("q")
+        if query:
+            entries = (
+                JournalEntry.query.filter(
+                    (JournalEntry.title.contains(query))
+                    | (JournalEntry.content.contains(query))
+                )
+                .order_by(JournalEntry.date_created.desc())
+                .all()
+            )
+        else:
+            entries = JournalEntry.query.order_by(
+                JournalEntry.date_created.desc()
+            ).all()
         return render_template("index.html", entries=entries, mood_icons=mood_icons)
 
 
@@ -50,7 +64,7 @@ def edit(id):
             print(f"Error updating: {e}")
             return "There was a problem updating that entry."
     else:
-        return render_template("edit.html", entry=entry)
+        return render_template("edit.html", entry=entry, mood_icons=mood_icons)
 
 
 @app.route("/delete/<int:id>")
