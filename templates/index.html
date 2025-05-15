@@ -1,39 +1,54 @@
 {% extends "base.html" %}
 
-{% block body %}
-<h1>My Journal</h1>
-<form method="POST">
-    <input type="text" name="title" placeholder="Entry title" required>
-    <textarea name="content" placeholder="Write your thoughts..." required></textarea>
-        <select name="mood">
-            {% for mood_key, mood_value in mood_icons.items() %}
-                <option value="{{ mood_key }}" {% if  "" == mood_key %} selected {% endif %}> 
-                {{ mood_value}}
-                </option>
-            {% endfor %}
-        </select>
-    <button type="submit">Save</button>
-</form>
+{% block content %}
+<div class="container my-5">
+    <h1 class="mb-4 text-center">📓 QuickJournal</h1>
 
-<hr>
-<form method="GET" action="/">
-    <input type="text" name="q" placeholder="Search entries..." value="{{ request.args.get('q', '') }}">
-    <button type="submit">Search</button>
-    {% if request.args.get('q') %}
-        <a href="/">Clear</a>
-    {% endif %}
-</form>
-
-<hr>
-
-{% for entry in entries %}
-    <div class="journal-entry">
-        <p><strong>Mood:</strong> <p>{{ mood_icons.get(entry.mood, "No mood") }}</p></p>
-        <p>Title:{{entry.title}}</p>
-        <p>content:{{ entry.content }}</p>
-        <a href="/delete/{{ entry.id }}">Delete</a>
-        <a href="/edit/{{ entry.id }}">Edit</a>
-        <p><strong>Date:</strong> {{ entry.date_created.strftime('%Y-%m-%d') }}</p>
+    <!-- Entry Form -->
+    <div class="card mb-4 shadow">
+        <div class="card-body">
+            <form method="POST">
+                <div class="mb-3">
+                    <input type="text" name="title" class="form-control" placeholder="Entry title" required>
+                </div>
+                <div class="mb-3">
+                    <textarea name="content" class="form-control" placeholder="Write your thoughts..." rows="4" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <select name="mood" class="form-select">
+                        {% for mood_key, mood_value in mood_icons.items() %}
+                            <option value="{{ mood_key }}" {% if "" == mood_key %} selected {% endif %}>
+                                {{ mood_value }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success">Save</button>
+            </form>
+        </div>
     </div>
-{% endfor %}
+
+    <!-- Search Form -->
+    <form method="GET" action="/" class="d-flex mb-4">
+        <input type="text" name="q" class="form-control me-2" placeholder="Search entries..." value="{{ request.args.get('q', '') }}">
+        <button type="submit" class="btn btn-outline-primary me-2">Search</button>
+        {% if request.args.get('q') %}
+            <a href="/" class="btn btn-outline-secondary">Clear</a>
+        {% endif %}
+    </form>
+
+    <!-- Journal Entries -->
+    {% for entry in entries %}
+        <div class="card mb-3 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{{ entry.title }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ entry.date_created.strftime('%Y-%m-%d') }}</h6>
+                <p class="card-text">{{ entry.content }}</p>
+                <p><strong>Mood:</strong> {{ mood_icons.get(entry.mood, "No mood") }}</p>
+                <a href="/edit/{{ entry.id }}" class="btn btn-sm btn-primary me-2">Edit</a>
+                <a href="/delete/{{ entry.id }}" class="btn btn-sm btn-danger">Delete</a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
 {% endblock %}
