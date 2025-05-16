@@ -2,8 +2,6 @@
 
 {% block content %}
 <div class="container my-5">
-    <h1 class="mb-4 text-center">📓 QuickJournal</h1>
-
     <!-- Entry Form -->
     <div class="card mb-4 shadow">
         <div class="card-body">
@@ -28,14 +26,6 @@
         </div>
     </div>
 
-    <!-- Search Form -->
-    <form method="GET" action="/" class="d-flex mb-4">
-        <input type="text" name="q" class="form-control me-2" placeholder="Search entries..." value="{{ request.args.get('q', '') }}">
-        <button type="submit" class="btn btn-outline-primary me-2">Search</button>
-        {% if request.args.get('q') %}
-            <a href="/" class="btn btn-outline-secondary">Clear</a>
-        {% endif %}
-    </form>
 
     <!-- Journal Entries -->
     {% for entry in entries %}
