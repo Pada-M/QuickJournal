@@ -32,15 +32,14 @@ QuickJournal is a simple yet powerful web application that allows users to write
 
 ## 📸 Preview
 
-![QuickJournal Screenshot](https://raw.githubusercontent.com/Pada-M/QuickJournal/main/static/images/screenshot.png)
+![QuickJournal Screenshot](https://raw.githubusercontent.com/Pada-M/QuickJournal/main/static/images/QJ_screenshot.png)
 
 ---
 
 ## 🔗 Live Demo
 
-👉 [View the Live Page](https://pada-m.github.io/QuickJournal)  
+👉 [View the Live Page](https://pada-m.github.io/QuickJournal/)  
 
-> *(You can update the link after deploying with GitHub Pages)*
 
 ---
 
@@ -54,7 +53,9 @@ cd QuickJournal
 
 # Create virtual environment
 python -m venv env
-# On Mac OS:source env/bin/activate  # On Windows: .\env\Scripts\activate
+
+next:
+# On Mac OS:source env/bin/activate or # On Windows: .\env\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
