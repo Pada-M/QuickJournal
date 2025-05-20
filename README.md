@@ -38,7 +38,7 @@ QuickJournal is a simple yet powerful web application that allows users to write
 
 ## 🔗 Live Demo
 
-👉 [View the Live Page](https://pada-m.github.io/QuickJournal/)  
+👉 [View the Live Page](https://quickjournal.onrender.com/)
 
 
 ---
